@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmenti/layout :: zaglavlje('Početna')}"></head>
+<body>
+
+<nav th:replace="~{fragmenti/layout :: navigacija('pocetna')}"></nav>
+
+<main class="sadrzaj">
+
+    <!-- Naslovni blok -->
+    <section class="hero">
+        <h1>Dobrodošli u salon Bella Vita</h1>
+        <p>
+            Aplikacija za vođenje evidencije termina, usluga i klijenata našeg kozmetičkog salona.
+            Zakažite termin u nekoliko klikova i pratite raspored svih kozmetičara na jednom mestu.
+        </p>
+        <a class="dugme dugme-hero" th:href="@{/termini/novi}">Zakaži termin</a>
+    </section>
+
+    <!-- Kratka statistika salona -->
+    <section class="statistika">
+        <div class="stat-kartica">
+            <div class="broj" th:text="${brojZakazanih}">0</div>
+            <div class="opis">Zakazanih termina</div>
+        </div>
+        <div class="stat-kartica">
+            <div class="broj" th:text="${brojKlijenata}">0</div>
+            <div class="opis">Klijenata</div>
+        </div>
+        <div class="stat-kartica">
+            <div class="broj" th:text="${brojUsluga}">0</div>
+            <div class="opis">Usluga u ponudi</div>
+        </div>
+        <div class="stat-kartica">
+            <div class="broj" th:text="${brojKozmeticara}">0</div>
+            <div class="opis">Kozmetičara</div>
+        </div>
+    </section>
+
+    <!-- Termini za danasnji dan -->
+    <section class="kartica">
+        <h2 th:text="'Raspored za danas (' + ${#temporals.format(#temporals.createToday(), 'dd.MM.yyyy.')} + ')'">
+            Raspored za danas
+        </h2>
+        <div class="tabela-okvir">
+            <table>
+                <thead>
+                <tr>
+                    <th>Vreme</th>
+                    <th>Klijent</th>
+                    <th>Usluga</th>
+                    <th>Kozmetičar</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="termin : ${terminiDanas}">
+                    <td th:text="${#temporals.format(termin.datumIVreme, 'HH:mm')}">09:00</td>
+                    <td th:text="${termin.klijent.punoIme}">Marija Jovanović</td>
+                    <td th:text="${termin.usluga.naziv}">Tretman lica</td>
+                    <td th:text="${termin.kozmeticar.punoIme}">Ivana Marković</td>
+                    <td>
+                        <span class="oznaka"
+                              th:classappend="'oznaka-' + ${#strings.toLowerCase(termin.status.name())}"
+                              th:text="${termin.status.naziv}">Zakazan</span>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(terminiDanas)}">
+                    <td colspan="5" class="prazna-tabela">Za danas nema zakazanih termina.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Naredni termini -->
+    <section class="kartica">
+        <h2>Naredni termini</h2>
+        <div class="tabela-okvir">
+            <table>
+                <thead>
+                <tr>
+                    <th>Datum i vreme</th>
+                    <th>Klijent</th>
+                    <th>Usluga</th>
+                    <th>Kozmetičar</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="termin : ${predstojeci}">
+                    <td th:text="${#temporals.format(termin.datumIVreme, 'dd.MM.yyyy. HH:mm')}">01.01.2026. 09:00</td>
+                    <td th:text="${termin.klijent.punoIme}">Marija Jovanović</td>
+                    <td th:text="${termin.usluga.naziv}">Tretman lica</td>
+                    <td th:text="${termin.kozmeticar.punoIme}">Ivana Marković</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(predstojeci)}">
+                    <td colspan="4" class="prazna-tabela">Trenutno nema budućih termina.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Poslednje recenzije klijenata -->
+    <section>
+        <div class="naslov-strane">
+            <h1>Šta kažu naši klijenti</h1>
+            <a class="dugme dugme-svetlo" th:href="@{/recenzije/nova}">Ostavi recenziju</a>
+        </div>
+        <div class="recenzije-lista">
+            <article class="recenzija" th:each="recenzija : ${recenzije}">
+                <div class="zvezdice" th:text="${recenzija.zvezdice}">★★★★★</div>
+                <p class="komentar" th:text="'„' + ${recenzija.komentar} + '“'">Komentar</p>
+                <p class="potpis">
+                    <span th:text="${recenzija.autor}">Autor</span> &middot;
+                    <span th:text="${recenzija.kozmeticar.punoIme}">Kozmetičar</span> &middot;
+                    <span th:text="${#temporals.format(recenzija.datum, 'dd.MM.yyyy.')}">01.01.2026.</span>
+                </p>
+            </article>
+        </div>
+    </section>
+
+</main>
+
+<footer th:replace="~{fragmenti/layout :: podnozje}"></footer>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmenti/layout :: zaglavlje('Greška')}"></head>
+<body>
+
+<nav th:replace="~{fragmenti/layout :: navigacija('')}"></nav>
+
+<main class="sadrzaj">
+    <section class="kartica">
+        <h2>Došlo je do greške</h2>
+        <p>Stranica koju ste tražili ne postoji ili je zahtev neispravan.</p>
+        <p th:if="${status}">
+            <strong>Status:</strong> <span th:text="${status}">404</span>
+            <span th:if="${error}" th:text="' — ' + ${error}"></span>
+        </p>
+        <div class="dugmici-forme">
+            <a class="dugme" th:href="@{/}">Nazad na početnu</a>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragmenti/layout :: podnozje}"></footer>
+
+</body>
+</html>

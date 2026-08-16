@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<!--
+  Zajednicki delovi svih stranica (zaglavlje, navigacija, poruke, podnozje).
+  Ostale strane ih ubacuju pomocu th:replace, cime se izbegava ponavljanje koda.
+-->
+
+<head th:fragment="zaglavlje(naslov)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'Bella Vita | ' + ${naslov}">Bella Vita</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<!-- Navigaciona traka. Parametar "aktivna" oznacava trenutno otvorenu stranu. -->
+<nav class="navbar" th:fragment="navigacija(aktivna)">
+    <div class="navbar-sadrzaj">
+        <a class="logo" th:href="@{/}">
+            Bella Vita
+            <span>kozmetički salon</span>
+        </a>
+        <ul class="meni">
+            <li><a th:href="@{/}" th:classappend="${aktivna == 'pocetna'} ? 'aktivan'">Početna</a></li>
+            <li><a th:href="@{/termini}" th:classappend="${aktivna == 'termini'} ? 'aktivan'">Termini</a></li>
+            <li><a th:href="@{/usluge}" th:classappend="${aktivna == 'usluge'} ? 'aktivan'">Usluge</a></li>
+            <li><a th:href="@{/klijenti}" th:classappend="${aktivna == 'klijenti'} ? 'aktivan'">Klijenti</a></li>
+            <li><a th:href="@{/kozmeticari}" th:classappend="${aktivna == 'kozmeticari'} ? 'aktivan'">Kozmetičari</a></li>
+            <li><a th:href="@{/recenzije}" th:classappend="${aktivna == 'recenzije'} ? 'aktivan'">Recenzije</a></li>
+            <li><a th:href="@{/o-nama}" th:classappend="${aktivna == 'o-nama'} ? 'aktivan'">O salonu</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Poruke o uspehu ili gresci koje stizu posle preusmeravanja (flash atributi) -->
+<div th:fragment="poruke">
+    <div class="poruka poruka-uspeh" th:if="${uspeh}" th:text="${uspeh}"></div>
+    <div class="poruka poruka-greska" th:if="${greska}" th:text="${greska}"></div>
+</div>
+
+<footer class="podnozje" th:fragment="podnozje">
+    <p>Kozmetički salon Bella Vita &middot; Bulevar Kralja Aleksandra 73, Beograd &middot; 011/123-456</p>
+    <p>IT355 Web sistemi 2 &ndash; prvi predispitni projektni zadatak &copy; 2025/2026</p>
+</footer>
+
+</body>
+</html>

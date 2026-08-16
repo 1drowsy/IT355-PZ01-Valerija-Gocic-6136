@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmenti/layout :: zaglavlje('O salonu')}"></head>
+<body>
+
+<nav th:replace="~{fragmenti/layout :: navigacija('o-nama')}"></nav>
+
+<main class="sadrzaj">
+
+    <div class="naslov-strane">
+        <div>
+            <h1>O salonu Bella Vita</h1>
+            <p>Osnovne informacije o salonu i pregled poslovanja.</p>
+        </div>
+    </div>
+
+    <section class="kartica">
+        <h2>Kontakt i radno vreme</h2>
+        <p><strong>Adresa:</strong> Bulevar Kralja Aleksandra 73, Beograd</p>
+        <p><strong>Telefon:</strong> 011/123-456</p>
+        <p><strong>Email:</strong> kontakt@bellavita.rs</p>
+        <p><strong>Radno vreme:</strong> svakog dana od 08:00 do 20:00 časova</p>
+        <p style="margin-top: 12px;">
+            Salon Bella Vita posluje od 2015. godine i specijalizovan je za tretmane lica i tela,
+            manikir, pedikir, depilaciju i profesionalno šminkanje. Naš tim čine sertifikovani
+            kozmetičari koji koriste proverenu profesionalnu kozmetiku.
+        </p>
+    </section>
+
+    <section class="statistika">
+        <div class="stat-kartica">
+            <div class="broj" th:text="${brojZavrsenih}">0</div>
+            <div class="opis">Završenih termina</div>
+        </div>
+        <div class="stat-kartica">
+            <div class="broj" th:text="${brojOtkazanih}">0</div>
+            <div class="opis">Otkazanih termina</div>
+        </div>
+        <div class="stat-kartica">
+            <div class="broj" th:text="${#numbers.formatDecimal(prihod, 1, 'POINT', 0, 'NONE')} + ' RSD'">0 RSD</div>
+            <div class="opis">Ostvaren prihod</div>
+        </div>
+    </section>
+
+    <section class="kartica">
+        <h2>Naš tim</h2>
+        <div class="tabela-okvir">
+            <table>
+                <thead>
+                <tr>
+                    <th>Kozmetičar</th>
+                    <th>Specijalnost</th>
+                    <th>Ocena</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="kozmeticar : ${kozmeticari}">
+                    <td th:text="${kozmeticar.punoIme}">Ivana Marković</td>
+                    <td th:text="${kozmeticar.specijalnost}">Tretmani lica</td>
+                    <td th:text="${#numbers.formatDecimal(kozmeticar.ocena, 1, 1)} + ' / 5.0'">4.8 / 5.0</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<footer th:replace="~{fragmenti/layout :: podnozje}"></footer>
+
+</body>
+</html>
