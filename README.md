@@ -1,7 +1,5 @@
 # Sistem za rezervaciju termina u kozmetičkom salonu
 
-Prvi predispitni projektni zadatak iz predmeta **IT355 – Web sistemi 2**.
-
 Spring Boot MVC web aplikacija za vođenje evidencije termina, usluga, klijenata,
 kozmetičara i recenzija u kozmetičkom salonu „Bella Vita". Podaci se, umesto u bazi,
 čuvaju u **application scope-u** (in-memory skladište).
