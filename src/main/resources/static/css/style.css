@@ -1,0 +1,565 @@
+/* =========================================================
+   IT355 - Kozmeticki salon "Bella Vita"
+   Glavni stilski fajl aplikacije
+   ========================================================= */
+
+/* ---------- Promenljive sa bojama ---------- */
+:root {
+    --roze: #c2185b;
+    --roze-tamna: #9c1149;
+    --roze-svetla: #fce4ec;
+    --zlatna: #c9a227;
+    --tekst: #33272e;
+    --tekst-svetli: #7d7079;
+    --pozadina: #fdf7f9;
+    --bela: #ffffff;
+    --ivica: #efe2e8;
+    --zelena: #2e7d52;
+    --zelena-svetla: #e6f4ec;
+    --crvena: #c62828;
+    --crvena-svetla: #fdecea;
+    --plava: #1565c0;
+    --plava-svetla: #e8f1fb;
+    --senka: 0 2px 10px rgba(80, 40, 60, 0.08);
+    --zaobljenje: 12px;
+}
+
+/* ---------- Osnovno ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
+    background-color: var(--pozadina);
+    color: var(--tekst);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+a {
+    color: var(--roze);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* ---------- Navigaciona traka ---------- */
+.navbar {
+    background-color: var(--bela);
+    border-bottom: 2px solid var(--roze-svetla);
+    box-shadow: var(--senka);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.navbar-sadrzaj {
+    max-width: 1150px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    min-height: 68px;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--roze);
+    letter-spacing: 0.5px;
+}
+
+.logo:hover {
+    text-decoration: none;
+}
+
+.logo span {
+    color: var(--zlatna);
+    font-weight: 400;
+    font-size: 13px;
+    display: block;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.meni {
+    display: flex;
+    list-style: none;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.meni a {
+    display: block;
+    padding: 8px 14px;
+    border-radius: 20px;
+    color: var(--tekst);
+    font-size: 15px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.meni a:hover {
+    background-color: var(--roze-svetla);
+    color: var(--roze);
+    text-decoration: none;
+}
+
+.meni a.aktivan {
+    background-color: var(--roze);
+    color: var(--bela);
+}
+
+/* ---------- Glavni kontejner ---------- */
+.sadrzaj {
+    max-width: 1150px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 30px 20px 50px;
+    flex: 1;
+}
+
+.naslov-strane {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.naslov-strane h1 {
+    font-size: 27px;
+    color: var(--roze-tamna);
+}
+
+.naslov-strane p {
+    color: var(--tekst-svetli);
+    font-size: 14px;
+}
+
+/* ---------- Kartice ---------- */
+.kartica {
+    background-color: var(--bela);
+    border: 1px solid var(--ivica);
+    border-radius: var(--zaobljenje);
+    box-shadow: var(--senka);
+    padding: 22px;
+    margin-bottom: 22px;
+}
+
+.kartica h2 {
+    font-size: 19px;
+    color: var(--roze-tamna);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--ivica);
+}
+
+/* ---------- Naslovni blok na pocetnoj ---------- */
+.hero {
+    background: linear-gradient(135deg, var(--roze) 0%, #e05780 100%);
+    color: var(--bela);
+    border-radius: var(--zaobljenje);
+    padding: 45px 35px;
+    margin-bottom: 26px;
+    box-shadow: var(--senka);
+}
+
+.hero h1 {
+    font-size: 34px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 16px;
+    opacity: 0.95;
+    max-width: 620px;
+    margin-bottom: 22px;
+}
+
+/* ---------- Statistika ---------- */
+.statistika {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 16px;
+    margin-bottom: 26px;
+}
+
+.stat-kartica {
+    background-color: var(--bela);
+    border: 1px solid var(--ivica);
+    border-left: 4px solid var(--roze);
+    border-radius: var(--zaobljenje);
+    box-shadow: var(--senka);
+    padding: 18px 20px;
+}
+
+.stat-kartica .broj {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--roze-tamna);
+    line-height: 1.2;
+}
+
+.stat-kartica .opis {
+    font-size: 13px;
+    color: var(--tekst-svetli);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ---------- Tabele ---------- */
+.tabela-okvir {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+
+thead th {
+    background-color: var(--roze-svetla);
+    color: var(--roze-tamna);
+    text-align: left;
+    padding: 12px 14px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    white-space: nowrap;
+}
+
+tbody td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--ivica);
+    vertical-align: middle;
+}
+
+tbody tr:hover {
+    background-color: #fffafc;
+}
+
+.kolona-akcije {
+    white-space: nowrap;
+}
+
+.prazna-tabela {
+    text-align: center;
+    color: var(--tekst-svetli);
+    padding: 30px 10px;
+    font-style: italic;
+}
+
+/* ---------- Oznake statusa ---------- */
+.oznaka {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+}
+
+.oznaka-zakazan {
+    background-color: var(--plava-svetla);
+    color: var(--plava);
+}
+
+.oznaka-zavrsen {
+    background-color: var(--zelena-svetla);
+    color: var(--zelena);
+}
+
+.oznaka-otkazan {
+    background-color: var(--crvena-svetla);
+    color: var(--crvena);
+}
+
+.oznaka-kategorija {
+    background-color: var(--roze-svetla);
+    color: var(--roze-tamna);
+}
+
+/* ---------- Dugmici ---------- */
+.dugme {
+    display: inline-block;
+    padding: 9px 18px;
+    border: none;
+    border-radius: 22px;
+    background-color: var(--roze);
+    color: var(--bela);
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.dugme:hover {
+    background-color: var(--roze-tamna);
+    text-decoration: none;
+    color: var(--bela);
+}
+
+.dugme:active {
+    transform: translateY(1px);
+}
+
+.dugme-svetlo {
+    background-color: var(--bela);
+    color: var(--roze);
+    border: 1px solid var(--roze);
+}
+
+.dugme-svetlo:hover {
+    background-color: var(--roze-svetla);
+    color: var(--roze-tamna);
+}
+
+.dugme-sivo {
+    background-color: #ece5e9;
+    color: var(--tekst);
+}
+
+.dugme-sivo:hover {
+    background-color: #ddd2d8;
+    color: var(--tekst);
+}
+
+.dugme-zeleno {
+    background-color: var(--zelena);
+}
+
+.dugme-zeleno:hover {
+    background-color: #23663f;
+}
+
+.dugme-crveno {
+    background-color: var(--crvena);
+}
+
+.dugme-crveno:hover {
+    background-color: #a01f1f;
+}
+
+.dugme-malo {
+    padding: 5px 12px;
+    font-size: 13px;
+    border-radius: 16px;
+}
+
+.dugme-hero {
+    background-color: var(--bela);
+    color: var(--roze);
+    font-weight: 600;
+    padding: 12px 26px;
+}
+
+.dugme-hero:hover {
+    background-color: var(--roze-svetla);
+    color: var(--roze-tamna);
+}
+
+/* Grupa dugmica u koloni akcija */
+.akcije {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.akcije form {
+    display: inline;
+}
+
+/* ---------- Poruke ---------- */
+.poruka {
+    padding: 13px 18px;
+    border-radius: var(--zaobljenje);
+    margin-bottom: 20px;
+    font-size: 15px;
+    border-left: 4px solid;
+}
+
+.poruka-uspeh {
+    background-color: var(--zelena-svetla);
+    color: var(--zelena);
+    border-color: var(--zelena);
+}
+
+.poruka-greska {
+    background-color: var(--crvena-svetla);
+    color: var(--crvena);
+    border-color: var(--crvena);
+}
+
+/* ---------- Forme ---------- */
+.forma {
+    max-width: 640px;
+}
+
+.polje {
+    margin-bottom: 18px;
+}
+
+.polje label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--tekst);
+}
+
+.polje input,
+.polje select,
+.polje textarea {
+    width: 100%;
+    padding: 10px 13px;
+    border: 1px solid var(--ivica);
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: inherit;
+    color: var(--tekst);
+    background-color: var(--bela);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.polje input:focus,
+.polje select:focus,
+.polje textarea:focus {
+    outline: none;
+    border-color: var(--roze);
+    box-shadow: 0 0 0 3px rgba(194, 24, 91, 0.12);
+}
+
+.polje textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.polje .pomoc {
+    font-size: 12px;
+    color: var(--tekst-svetli);
+    margin-top: 4px;
+}
+
+.polje-greska input,
+.polje-greska select,
+.polje-greska textarea {
+    border-color: var(--crvena);
+    background-color: #fffafa;
+}
+
+.greska {
+    display: block;
+    color: var(--crvena);
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.red {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.dugmici-forme {
+    display: flex;
+    gap: 10px;
+    margin-top: 26px;
+    padding-top: 18px;
+    border-top: 1px solid var(--ivica);
+}
+
+/* ---------- Filter traka ---------- */
+.filter {
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.filter .polje {
+    margin-bottom: 0;
+    min-width: 175px;
+    flex: 1;
+}
+
+/* ---------- Lista recenzija ---------- */
+.recenzije-lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 16px;
+}
+
+.recenzija {
+    background-color: var(--bela);
+    border: 1px solid var(--ivica);
+    border-radius: var(--zaobljenje);
+    box-shadow: var(--senka);
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.recenzija .zvezdice {
+    color: var(--zlatna);
+    font-size: 18px;
+    letter-spacing: 2px;
+}
+
+.recenzija .komentar {
+    font-style: italic;
+    color: var(--tekst);
+}
+
+.recenzija .potpis {
+    font-size: 13px;
+    color: var(--tekst-svetli);
+    margin-top: auto;
+}
+
+/* ---------- Podnozje ---------- */
+.podnozje {
+    background-color: var(--bela);
+    border-top: 1px solid var(--ivica);
+    padding: 22px 20px;
+    text-align: center;
+    color: var(--tekst-svetli);
+    font-size: 13px;
+}
+
+/* ---------- Manji ekrani ---------- */
+@media (max-width: 700px) {
+    .navbar-sadrzaj {
+        justify-content: center;
+    }
+
+    .hero {
+        padding: 30px 22px;
+    }
+
+    .hero h1 {
+        font-size: 26px;
+    }
+
+    .red {
+        grid-template-columns: 1fr;
+    }
+
+    .naslov-strane {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
