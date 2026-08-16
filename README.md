@@ -86,13 +86,8 @@ IT355-PZ01-Valerija-Gocic-6136/
     └── test/java/rs/ac/metropolitan/it355/salon/
 ```
 
-Detaljan opis arhitekture, modela i uputstvo za korišćenje nalaze se u
-[DOKUMENTACIJA.md](DOKUMENTACIJA.md).
-
----
-
 ## Autor
 
 **Valerija Gocić**, indeks **6136**
 Univerzitet Metropolitan, Fakultet informacionih tehnologija
-Predmet: IT355 – Web sistemi 2, školska 2025/2026. godina
+Predmet: IT355 - Web sistemi 2, školska 2025/2026. godina
