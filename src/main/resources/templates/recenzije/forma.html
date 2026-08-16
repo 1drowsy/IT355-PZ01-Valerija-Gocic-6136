@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmenti/layout :: zaglavlje('Nova recenzija')}"></head>
+<body>
+
+<nav th:replace="~{fragmenti/layout :: navigacija('recenzije')}"></nav>
+
+<main class="sadrzaj">
+
+    <div class="naslov-strane">
+        <div>
+            <h1>Ostavite recenziju</h1>
+            <p>Vaš utisak nam pomaže da unapredimo uslugu.</p>
+        </div>
+    </div>
+
+    <section class="kartica">
+        <form class="forma" th:action="@{/recenzije/sacuvaj}" th:object="${recenzija}" method="post">
+
+            <input type="hidden" th:field="*{id}">
+
+            <div class="red">
+                <div class="polje" th:classappend="${#fields.hasErrors('autor')} ? 'polje-greska'">
+                    <label for="autor">Vaše ime *</label>
+                    <input type="text" id="autor" th:field="*{autor}" placeholder="npr. Marija J.">
+                    <span class="greska" th:if="${#fields.hasErrors('autor')}" th:errors="*{autor}"></span>
+                </div>
+
+                <div class="polje" th:classappend="${#fields.hasErrors('kozmeticar.id')} ? 'polje-greska'">
+                    <label for="kozmeticar">Kozmetičar *</label>
+                    <select id="kozmeticar" th:field="*{kozmeticar.id}">
+                        <option value="">— izaberite kozmetičara —</option>
+                        <option th:each="k : ${sviKozmeticari}" th:value="${k.id}" th:text="${k.punoIme}">Kozmetičar</option>
+                    </select>
+                    <span class="greska" th:if="${#fields.hasErrors('kozmeticar.id')}" th:errors="*{kozmeticar.id}"></span>
+                </div>
+            </div>
+
+            <div class="polje" th:classappend="${#fields.hasErrors('ocena')} ? 'polje-greska'">
+                <label for="ocena">Ocena *</label>
+                <select id="ocena" th:field="*{ocena}">
+                    <option value="">— izaberite ocenu —</option>
+                    <option value="5">★★★★★ (5)</option>
+                    <option value="4">★★★★☆ (4)</option>
+                    <option value="3">★★★☆☆ (3)</option>
+                    <option value="2">★★☆☆☆ (2)</option>
+                    <option value="1">★☆☆☆☆ (1)</option>
+                </select>
+                <span class="greska" th:if="${#fields.hasErrors('ocena')}" th:errors="*{ocena}"></span>
+            </div>
+
+            <div class="polje" th:classappend="${#fields.hasErrors('komentar')} ? 'polje-greska'">
+                <label for="komentar">Komentar *</label>
+                <textarea id="komentar" th:field="*{komentar}" placeholder="Opišite svoje iskustvo..."></textarea>
+                <span class="greska" th:if="${#fields.hasErrors('komentar')}" th:errors="*{komentar}"></span>
+            </div>
+
+            <div class="dugmici-forme">
+                <button type="submit" class="dugme">Pošalji recenziju</button>
+                <a class="dugme dugme-sivo" th:href="@{/recenzije}">Odustani</a>
+            </div>
+        </form>
+    </section>
+
+</main>
+
+<footer th:replace="~{fragmenti/layout :: podnozje}"></footer>
+
+</body>
+</html>

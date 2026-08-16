@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmenti/layout :: zaglavlje('Kozmetičari')}"></head>
+<body>
+
+<nav th:replace="~{fragmenti/layout :: navigacija('kozmeticari')}"></nav>
+
+<main class="sadrzaj">
+
+    <div class="naslov-strane">
+        <div>
+            <h1>Naš tim</h1>
+            <p>Kozmetičari salona, njihove specijalnosti i prosečne ocene klijenata.</p>
+        </div>
+        <a class="dugme" th:href="@{/kozmeticari/novi}">+ Novi kozmetičar</a>
+    </div>
+
+    <div th:replace="~{fragmenti/layout :: poruke}"></div>
+
+    <section class="kartica">
+        <h2 th:text="'Ukupno kozmetičara: ' + ${#lists.size(kozmeticari)}">Kozmetičari</h2>
+        <div class="tabela-okvir">
+            <table>
+                <thead>
+                <tr>
+                    <th>Ime i prezime</th>
+                    <th>Specijalnost</th>
+                    <th>Ocena</th>
+                    <th>Broj recenzija</th>
+                    <th>Akcije</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="kozmeticar : ${kozmeticari}">
+                    <td><strong th:text="${kozmeticar.punoIme}">Ivana Marković</strong></td>
+                    <td th:text="${kozmeticar.specijalnost}">Tretmani lica</td>
+                    <td th:text="${#numbers.formatDecimal(kozmeticar.ocena, 1, 1)} + ' / 5.0'">4.8 / 5.0</td>
+                    <td th:text="${brojRecenzija.get(kozmeticar.id)}">0</td>
+                    <td class="kolona-akcije">
+                        <div class="akcije">
+                            <a class="dugme dugme-malo dugme-svetlo"
+                               th:href="@{/kozmeticari/izmena/{id}(id=${kozmeticar.id})}">Izmeni</a>
+                            <a class="dugme dugme-malo dugme-sivo"
+                               th:href="@{/termini(kozmeticarId=${kozmeticar.id})}">Termini</a>
+                            <form th:action="@{/kozmeticari/obrisi/{id}(id=${kozmeticar.id})}" method="post"
+                                  onsubmit="return confirm('Da li ste sigurni da želite da obrišete kozmetičara?');">
+                                <button type="submit" class="dugme dugme-malo dugme-crveno">Obriši</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(kozmeticari)}">
+                    <td colspan="5" class="prazna-tabela">Nema unetih kozmetičara.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<footer th:replace="~{fragmenti/layout :: podnozje}"></footer>
+
+</body>
+</html>

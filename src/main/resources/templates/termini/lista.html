@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmenti/layout :: zaglavlje('Termini')}"></head>
+<body>
+
+<nav th:replace="~{fragmenti/layout :: navigacija('termini')}"></nav>
+
+<main class="sadrzaj">
+
+    <div class="naslov-strane">
+        <div>
+            <h1>Evidencija termina</h1>
+            <p>Pregled, zakazivanje, izmena i otkazivanje termina u salonu.</p>
+        </div>
+        <a class="dugme" th:href="@{/termini/novi}">+ Novi termin</a>
+    </div>
+
+    <div th:replace="~{fragmenti/layout :: poruke}"></div>
+
+    <!-- Filtriranje termina po kozmeticaru, datumu i statusu -->
+    <section class="kartica">
+        <h2>Filtriranje</h2>
+        <form class="filter" method="get" th:action="@{/termini}">
+            <div class="polje">
+                <label for="kozmeticarId">Kozmetičar</label>
+                <select id="kozmeticarId" name="kozmeticarId">
+                    <option value="">— svi kozmetičari —</option>
+                    <option th:each="k : ${sviKozmeticari}"
+                            th:value="${k.id}"
+                            th:text="${k.punoIme}"
+                            th:selected="${kozmeticarId != null and kozmeticarId == k.id}">Ime</option>
+                </select>
+            </div>
+            <div class="polje">
+                <label for="datum">Datum</label>
+                <input type="date" id="datum" name="datum"
+                       th:value="${datum != null} ? ${#temporals.format(datum, 'yyyy-MM-dd')} : ''">
+            </div>
+            <div class="polje">
+                <label for="status">Status</label>
+                <select id="status" name="status">
+                    <option value="">— svi statusi —</option>
+                    <option th:each="s : ${sviStatusi}"
+                            th:value="${s.name()}"
+                            th:text="${s.naziv}"
+                            th:selected="${status != null and status == s}">Status</option>
+                </select>
+            </div>
+            <div class="polje">
+                <button type="submit" class="dugme">Prikaži</button>
+                <a class="dugme dugme-sivo" th:href="@{/termini}">Poništi</a>
+            </div>
+        </form>
+    </section>
+
+    <!-- Tabela termina -->
+    <section class="kartica">
+        <h2 th:text="'Pronađeno termina: ' + ${#lists.size(termini)}">Termini</h2>
+        <div class="tabela-okvir">
+            <table>
+                <thead>
+                <tr>
+                    <th>Datum i vreme</th>
+                    <th>Klijent</th>
+                    <th>Usluga</th>
+                    <th>Kozmetičar</th>
+                    <th>Trajanje</th>
+                    <th>Cena</th>
+                    <th>Status</th>
+                    <th>Napomena</th>
+                    <th>Akcije</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="termin : ${termini}">
+                    <td th:text="${#temporals.format(termin.datumIVreme, 'dd.MM.yyyy. HH:mm')}">01.01.2026. 09:00</td>
+                    <td th:text="${termin.klijent.punoIme}">Marija Jovanović</td>
+                    <td th:text="${termin.usluga.naziv}">Tretman lica</td>
+                    <td th:text="${termin.kozmeticar.punoIme}">Ivana Marković</td>
+                    <td th:text="${termin.usluga.trajanjeUMinutima} + ' min'">60 min</td>
+                    <td th:text="${#numbers.formatDecimal(termin.usluga.cena, 1, 'POINT', 0, 'NONE')} + ' RSD'">3500 RSD</td>
+                    <td>
+                        <span class="oznaka"
+                              th:classappend="'oznaka-' + ${#strings.toLowerCase(termin.status.name())}"
+                              th:text="${termin.status.naziv}">Zakazan</span>
+                    </td>
+                    <td th:text="${#strings.isEmpty(termin.napomena)} ? '—' : ${termin.napomena}">—</td>
+                    <td class="kolona-akcije">
+                        <div class="akcije">
+                            <a class="dugme dugme-malo dugme-svetlo"
+                               th:href="@{/termini/izmena/{id}(id=${termin.id})}">Izmeni</a>
+
+                            <form th:action="@{/termini/zavrsi/{id}(id=${termin.id})}" method="post"
+                                  th:if="${termin.status.name() == 'ZAKAZAN'}">
+                                <button type="submit" class="dugme dugme-malo dugme-zeleno">Završi</button>
+                            </form>
+
+                            <form th:action="@{/termini/otkazi/{id}(id=${termin.id})}" method="post"
+                                  th:if="${termin.status.name() == 'ZAKAZAN'}"
+                                  onsubmit="return confirm('Da li ste sigurni da želite da otkažete termin?');">
+                                <button type="submit" class="dugme dugme-malo dugme-sivo">Otkaži</button>
+                            </form>
+
+                            <form th:action="@{/termini/obrisi/{id}(id=${termin.id})}" method="post"
+                                  onsubmit="return confirm('Termin će biti trajno obrisan. Nastaviti?');">
+                                <button type="submit" class="dugme dugme-malo dugme-crveno">Obriši</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(termini)}">
+                    <td colspan="9" class="prazna-tabela">Nema termina koji odgovaraju zadatom filteru.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<footer th:replace="~{fragmenti/layout :: podnozje}"></footer>
+
+</body>
+</html>

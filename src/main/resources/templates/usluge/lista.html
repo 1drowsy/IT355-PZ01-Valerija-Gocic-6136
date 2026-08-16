@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmenti/layout :: zaglavlje('Usluge')}"></head>
+<body>
+
+<nav th:replace="~{fragmenti/layout :: navigacija('usluge')}"></nav>
+
+<main class="sadrzaj">
+
+    <div class="naslov-strane">
+        <div>
+            <h1>Cenovnik usluga</h1>
+            <p>Pregled svih usluga salona sa trajanjem i cenom.</p>
+        </div>
+        <a class="dugme" th:href="@{/usluge/nova}">+ Nova usluga</a>
+    </div>
+
+    <div th:replace="~{fragmenti/layout :: poruke}"></div>
+
+    <!-- Filtriranje po kategoriji i pretraga po nazivu -->
+    <section class="kartica">
+        <h2>Pretraga i filtriranje</h2>
+        <form class="filter" method="get" th:action="@{/usluge}">
+            <div class="polje">
+                <label for="kategorija">Kategorija</label>
+                <select id="kategorija" name="kategorija">
+                    <option value="">— sve kategorije —</option>
+                    <option th:each="k : ${sveKategorije}"
+                            th:value="${k.name()}"
+                            th:text="${k.naziv}"
+                            th:selected="${kategorija != null and kategorija == k}">Kategorija</option>
+                </select>
+            </div>
+            <div class="polje">
+                <label for="pojam">Naziv usluge</label>
+                <input type="text" id="pojam" name="pojam" th:value="${pojam}" placeholder="npr. masaža">
+            </div>
+            <div class="polje">
+                <button type="submit" class="dugme">Pretraži</button>
+                <a class="dugme dugme-sivo" th:href="@{/usluge}">Poništi</a>
+            </div>
+        </form>
+    </section>
+
+    <section class="kartica">
+        <h2 th:text="'Pronađeno usluga: ' + ${#lists.size(usluge)}">Usluge</h2>
+        <div class="tabela-okvir">
+            <table>
+                <thead>
+                <tr>
+                    <th>Naziv</th>
+                    <th>Kategorija</th>
+                    <th>Opis</th>
+                    <th>Trajanje</th>
+                    <th>Cena</th>
+                    <th>Akcije</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="usluga : ${usluge}">
+                    <td><strong th:text="${usluga.naziv}">Naziv</strong></td>
+                    <td>
+                        <span class="oznaka oznaka-kategorija" th:text="${usluga.kategorija.naziv}">Kategorija</span>
+                    </td>
+                    <td th:text="${usluga.opis}">Opis</td>
+                    <td th:text="${usluga.trajanjeUMinutima} + ' min'">60 min</td>
+                    <td th:text="${#numbers.formatDecimal(usluga.cena, 1, 'POINT', 0, 'NONE')} + ' RSD'">3500 RSD</td>
+                    <td class="kolona-akcije">
+                        <div class="akcije">
+                            <a class="dugme dugme-malo dugme-svetlo"
+                               th:href="@{/usluge/izmena/{id}(id=${usluga.id})}">Izmeni</a>
+                            <form th:action="@{/usluge/obrisi/{id}(id=${usluga.id})}" method="post"
+                                  onsubmit="return confirm('Da li ste sigurni da želite da obrišete uslugu?');">
+                                <button type="submit" class="dugme dugme-malo dugme-crveno">Obriši</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(usluge)}">
+                    <td colspan="6" class="prazna-tabela">Nema usluga koje odgovaraju pretrazi.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<footer th:replace="~{fragmenti/layout :: podnozje}"></footer>
+
+</body>
+</html>

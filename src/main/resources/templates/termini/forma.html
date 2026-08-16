@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmenti/layout :: zaglavlje('Zakazivanje termina')}"></head>
+<body>
+
+<nav th:replace="~{fragmenti/layout :: navigacija('termini')}"></nav>
+
+<main class="sadrzaj">
+
+    <div class="naslov-strane">
+        <div>
+            <h1 th:text="${termin.id == null} ? 'Zakazivanje novog termina' : 'Izmena termina'">Novi termin</h1>
+            <p>Salon radi svakog dana od 08:00 do 20:00 časova.</p>
+        </div>
+    </div>
+
+    <section class="kartica">
+        <form class="forma" th:action="@{/termini/sacuvaj}" th:object="${termin}" method="post">
+
+            <!-- ID postojeceg termina se prenosi kao skriveno polje -->
+            <input type="hidden" th:field="*{id}">
+
+            <!-- Greske poslovnih pravila (npr. preklapanje termina) -->
+            <div class="poruka poruka-greska" th:if="${#fields.hasGlobalErrors()}">
+                <p th:each="greska : ${#fields.globalErrors()}" th:text="${greska}">Greška</p>
+            </div>
+
+            <div class="polje" th:classappend="${#fields.hasErrors('datumIVreme')} ? 'polje-greska'">
+                <label for="datumIVreme">Datum i vreme *</label>
+                <input type="datetime-local" id="datumIVreme" th:field="*{datumIVreme}">
+                <span class="greska" th:if="${#fields.hasErrors('datumIVreme')}" th:errors="*{datumIVreme}"></span>
+            </div>
+
+            <div class="red">
+                <div class="polje" th:classappend="${#fields.hasErrors('klijent.id')} ? 'polje-greska'">
+                    <label for="klijent">Klijent *</label>
+                    <select id="klijent" th:field="*{klijent.id}">
+                        <option value="">— izaberite klijenta —</option>
+                        <option th:each="k : ${sviKlijenti}" th:value="${k.id}" th:text="${k.punoIme}">Klijent</option>
+                    </select>
+                    <span class="greska" th:if="${#fields.hasErrors('klijent.id')}" th:errors="*{klijent.id}"></span>
+                </div>
+
+                <div class="polje" th:classappend="${#fields.hasErrors('kozmeticar.id')} ? 'polje-greska'">
+                    <label for="kozmeticar">Kozmetičar *</label>
+                    <select id="kozmeticar" th:field="*{kozmeticar.id}">
+                        <option value="">— izaberite kozmetičara —</option>
+                        <option th:each="k : ${sviKozmeticari}" th:value="${k.id}"
+                                th:text="${k.punoIme} + ' (' + ${k.specijalnost} + ')'">Kozmetičar</option>
+                    </select>
+                    <span class="greska" th:if="${#fields.hasErrors('kozmeticar.id')}" th:errors="*{kozmeticar.id}"></span>
+                </div>
+            </div>
+
+            <div class="polje" th:classappend="${#fields.hasErrors('usluga.id')} ? 'polje-greska'">
+                <label for="usluga">Usluga *</label>
+                <select id="usluga" th:field="*{usluga.id}">
+                    <option value="">— izaberite uslugu —</option>
+                    <option th:each="u : ${sveUsluge}" th:value="${u.id}"
+                            th:text="${u.naziv} + ' — ' + ${u.trajanjeUMinutima} + ' min, ' + ${#numbers.formatDecimal(u.cena, 1, 'POINT', 0, 'NONE')} + ' RSD'">
+                        Usluga
+                    </option>
+                </select>
+                <span class="greska" th:if="${#fields.hasErrors('usluga.id')}" th:errors="*{usluga.id}"></span>
+                <span class="pomoc">Trajanje usluge određuje koliko će kozmetičar biti zauzet.</span>
+            </div>
+
+            <div class="polje" th:classappend="${#fields.hasErrors('status')} ? 'polje-greska'">
+                <label for="status">Status *</label>
+                <select id="status" th:field="*{status}">
+                    <option th:each="s : ${sviStatusi}" th:value="${s.name()}" th:text="${s.naziv}">Status</option>
+                </select>
+                <span class="greska" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></span>
+            </div>
+
+            <div class="polje" th:classappend="${#fields.hasErrors('napomena')} ? 'polje-greska'">
+                <label for="napomena">Napomena</label>
+                <textarea id="napomena" th:field="*{napomena}"
+                          placeholder="Npr. klijentkinja ima osetljivu kožu..."></textarea>
+                <span class="greska" th:if="${#fields.hasErrors('napomena')}" th:errors="*{napomena}"></span>
+            </div>
+
+            <div class="dugmici-forme">
+                <button type="submit" class="dugme">Sačuvaj</button>
+                <a class="dugme dugme-sivo" th:href="@{/termini}">Odustani</a>
+            </div>
+        </form>
+    </section>
+
+</main>
+
+<footer th:replace="~{fragmenti/layout :: podnozje}"></footer>
+
+</body>
+</html>

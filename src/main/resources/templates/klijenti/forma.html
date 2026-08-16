@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmenti/layout :: zaglavlje('Klijent')}"></head>
+<body>
+
+<nav th:replace="~{fragmenti/layout :: navigacija('klijenti')}"></nav>
+
+<main class="sadrzaj">
+
+    <div class="naslov-strane">
+        <h1 th:text="${klijent.id == null} ? 'Dodavanje novog klijenta' : 'Izmena podataka o klijentu'">Novi klijent</h1>
+    </div>
+
+    <section class="kartica">
+        <form class="forma" th:action="@{/klijenti/sacuvaj}" th:object="${klijent}" method="post">
+
+            <input type="hidden" th:field="*{id}">
+
+            <div class="red">
+                <div class="polje" th:classappend="${#fields.hasErrors('ime')} ? 'polje-greska'">
+                    <label for="ime">Ime *</label>
+                    <input type="text" id="ime" th:field="*{ime}">
+                    <span class="greska" th:if="${#fields.hasErrors('ime')}" th:errors="*{ime}"></span>
+                </div>
+
+                <div class="polje" th:classappend="${#fields.hasErrors('prezime')} ? 'polje-greska'">
+                    <label for="prezime">Prezime *</label>
+                    <input type="text" id="prezime" th:field="*{prezime}">
+                    <span class="greska" th:if="${#fields.hasErrors('prezime')}" th:errors="*{prezime}"></span>
+                </div>
+            </div>
+
+            <div class="polje" th:classappend="${#fields.hasErrors('telefon')} ? 'polje-greska'">
+                <label for="telefon">Telefon *</label>
+                <input type="text" id="telefon" th:field="*{telefon}" placeholder="0641234567">
+                <span class="greska" th:if="${#fields.hasErrors('telefon')}" th:errors="*{telefon}"></span>
+                <span class="pomoc">Format: 06xxxxxxx (9 ili 10 cifara, bez razmaka).</span>
+            </div>
+
+            <div class="polje" th:classappend="${#fields.hasErrors('email')} ? 'polje-greska'">
+                <label for="email">Email *</label>
+                <input type="email" id="email" th:field="*{email}" placeholder="ime.prezime@gmail.com">
+                <span class="greska" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+            </div>
+
+            <div class="dugmici-forme">
+                <button type="submit" class="dugme">Sačuvaj</button>
+                <a class="dugme dugme-sivo" th:href="@{/klijenti}">Odustani</a>
+            </div>
+        </form>
+    </section>
+
+</main>
+
+<footer th:replace="~{fragmenti/layout :: podnozje}"></footer>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmenti/layout :: zaglavlje('Klijenti')}"></head>
+<body>
+
+<nav th:replace="~{fragmenti/layout :: navigacija('klijenti')}"></nav>
+
+<main class="sadrzaj">
+
+    <div class="naslov-strane">
+        <div>
+            <h1>Klijenti salona</h1>
+            <p>Evidencija svih klijenata i njihovih kontakt podataka.</p>
+        </div>
+        <a class="dugme" th:href="@{/klijenti/novi}">+ Novi klijent</a>
+    </div>
+
+    <div th:replace="~{fragmenti/layout :: poruke}"></div>
+
+    <section class="kartica">
+        <h2>Pretraga</h2>
+        <form class="filter" method="get" th:action="@{/klijenti}">
+            <div class="polje">
+                <label for="pojam">Ime, prezime, telefon ili email</label>
+                <input type="text" id="pojam" name="pojam" th:value="${pojam}" placeholder="npr. Marija">
+            </div>
+            <div class="polje">
+                <button type="submit" class="dugme">Pretraži</button>
+                <a class="dugme dugme-sivo" th:href="@{/klijenti}">Poništi</a>
+            </div>
+        </form>
+    </section>
+
+    <section class="kartica">
+        <h2 th:text="'Pronađeno klijenata: ' + ${#lists.size(klijenti)}">Klijenti</h2>
+        <div class="tabela-okvir">
+            <table>
+                <thead>
+                <tr>
+                    <th>Ime i prezime</th>
+                    <th>Telefon</th>
+                    <th>Email</th>
+                    <th>Akcije</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="klijent : ${klijenti}">
+                    <td><strong th:text="${klijent.punoIme}">Marija Jovanović</strong></td>
+                    <td th:text="${klijent.telefon}">0641234567</td>
+                    <td><a th:href="'mailto:' + ${klijent.email}" th:text="${klijent.email}">email</a></td>
+                    <td class="kolona-akcije">
+                        <div class="akcije">
+                            <a class="dugme dugme-malo dugme-svetlo"
+                               th:href="@{/klijenti/izmena/{id}(id=${klijent.id})}">Izmeni</a>
+                            <form th:action="@{/klijenti/obrisi/{id}(id=${klijent.id})}" method="post"
+                                  onsubmit="return confirm('Da li ste sigurni da želite da obrišete klijenta?');">
+                                <button type="submit" class="dugme dugme-malo dugme-crveno">Obriši</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(klijenti)}">
+                    <td colspan="4" class="prazna-tabela">Nema klijenata koji odgovaraju pretrazi.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<footer th:replace="~{fragmenti/layout :: podnozje}"></footer>
+
+</body>
+</html>

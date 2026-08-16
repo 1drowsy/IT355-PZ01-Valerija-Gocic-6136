@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmenti/layout :: zaglavlje('Kozmetičar')}"></head>
+<body>
+
+<nav th:replace="~{fragmenti/layout :: navigacija('kozmeticari')}"></nav>
+
+<main class="sadrzaj">
+
+    <div class="naslov-strane">
+        <h1 th:text="${kozmeticar.id == null} ? 'Dodavanje novog kozmetičara' : 'Izmena podataka o kozmetičaru'">
+            Novi kozmetičar
+        </h1>
+    </div>
+
+    <section class="kartica">
+        <form class="forma" th:action="@{/kozmeticari/sacuvaj}" th:object="${kozmeticar}" method="post">
+
+            <input type="hidden" th:field="*{id}">
+
+            <div class="red">
+                <div class="polje" th:classappend="${#fields.hasErrors('ime')} ? 'polje-greska'">
+                    <label for="ime">Ime *</label>
+                    <input type="text" id="ime" th:field="*{ime}">
+                    <span class="greska" th:if="${#fields.hasErrors('ime')}" th:errors="*{ime}"></span>
+                </div>
+
+                <div class="polje" th:classappend="${#fields.hasErrors('prezime')} ? 'polje-greska'">
+                    <label for="prezime">Prezime *</label>
+                    <input type="text" id="prezime" th:field="*{prezime}">
+                    <span class="greska" th:if="${#fields.hasErrors('prezime')}" th:errors="*{prezime}"></span>
+                </div>
+            </div>
+
+            <div class="polje" th:classappend="${#fields.hasErrors('specijalnost')} ? 'polje-greska'">
+                <label for="specijalnost">Specijalnost *</label>
+                <input type="text" id="specijalnost" th:field="*{specijalnost}" placeholder="npr. Tretmani lica">
+                <span class="greska" th:if="${#fields.hasErrors('specijalnost')}" th:errors="*{specijalnost}"></span>
+            </div>
+
+            <div class="polje" th:classappend="${#fields.hasErrors('ocena')} ? 'polje-greska'">
+                <label for="ocena">Početna ocena *</label>
+                <input type="number" id="ocena" th:field="*{ocena}" min="1" max="5" step="0.1">
+                <span class="greska" th:if="${#fields.hasErrors('ocena')}" th:errors="*{ocena}"></span>
+                <span class="pomoc">Ocena se kasnije automatski usklađuje sa prosekom recenzija.</span>
+            </div>
+
+            <div class="dugmici-forme">
+                <button type="submit" class="dugme">Sačuvaj</button>
+                <a class="dugme dugme-sivo" th:href="@{/kozmeticari}">Odustani</a>
+            </div>
+        </form>
+    </section>
+
+</main>
+
+<footer th:replace="~{fragmenti/layout :: podnozje}"></footer>
+
+</body>
+</html>

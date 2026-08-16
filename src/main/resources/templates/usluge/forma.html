@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmenti/layout :: zaglavlje('Usluga')}"></head>
+<body>
+
+<nav th:replace="~{fragmenti/layout :: navigacija('usluge')}"></nav>
+
+<main class="sadrzaj">
+
+    <div class="naslov-strane">
+        <h1 th:text="${usluga.id == null} ? 'Dodavanje nove usluge' : 'Izmena usluge'">Nova usluga</h1>
+    </div>
+
+    <section class="kartica">
+        <form class="forma" th:action="@{/usluge/sacuvaj}" th:object="${usluga}" method="post">
+
+            <input type="hidden" th:field="*{id}">
+
+            <div class="polje" th:classappend="${#fields.hasErrors('naziv')} ? 'polje-greska'">
+                <label for="naziv">Naziv usluge *</label>
+                <input type="text" id="naziv" th:field="*{naziv}" placeholder="npr. Dubinsko čišćenje lica">
+                <span class="greska" th:if="${#fields.hasErrors('naziv')}" th:errors="*{naziv}"></span>
+            </div>
+
+            <div class="polje" th:classappend="${#fields.hasErrors('opis')} ? 'polje-greska'">
+                <label for="opis">Opis *</label>
+                <textarea id="opis" th:field="*{opis}" placeholder="Kratak opis tretmana..."></textarea>
+                <span class="greska" th:if="${#fields.hasErrors('opis')}" th:errors="*{opis}"></span>
+            </div>
+
+            <div class="red">
+                <div class="polje" th:classappend="${#fields.hasErrors('trajanjeUMinutima')} ? 'polje-greska'">
+                    <label for="trajanje">Trajanje (minuta) *</label>
+                    <input type="number" id="trajanje" th:field="*{trajanjeUMinutima}" min="15" max="300" step="5">
+                    <span class="greska" th:if="${#fields.hasErrors('trajanjeUMinutima')}"
+                          th:errors="*{trajanjeUMinutima}"></span>
+                    <span class="pomoc">Od 15 do 300 minuta.</span>
+                </div>
+
+                <div class="polje" th:classappend="${#fields.hasErrors('cena')} ? 'polje-greska'">
+                    <label for="cena">Cena (RSD) *</label>
+                    <input type="number" id="cena" th:field="*{cena}" min="100" max="100000" step="50">
+                    <span class="greska" th:if="${#fields.hasErrors('cena')}" th:errors="*{cena}"></span>
+                </div>
+            </div>
+
+            <div class="polje" th:classappend="${#fields.hasErrors('kategorija')} ? 'polje-greska'">
+                <label for="kategorija">Kategorija *</label>
+                <select id="kategorija" th:field="*{kategorija}">
+                    <option value="">— izaberite kategoriju —</option>
+                    <option th:each="k : ${sveKategorije}" th:value="${k.name()}" th:text="${k.naziv}">Kategorija</option>
+                </select>
+                <span class="greska" th:if="${#fields.hasErrors('kategorija')}" th:errors="*{kategorija}"></span>
+            </div>
+
+            <div class="dugmici-forme">
+                <button type="submit" class="dugme">Sačuvaj</button>
+                <a class="dugme dugme-sivo" th:href="@{/usluge}">Odustani</a>
+            </div>
+        </form>
+    </section>
+
+</main>
+
+<footer th:replace="~{fragmenti/layout :: podnozje}"></footer>
+
+</body>
+</html>

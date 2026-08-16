@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmenti/layout :: zaglavlje('Recenzije')}"></head>
+<body>
+
+<nav th:replace="~{fragmenti/layout :: navigacija('recenzije')}"></nav>
+
+<main class="sadrzaj">
+
+    <div class="naslov-strane">
+        <div>
+            <h1>Recenzije klijenata</h1>
+            <p>Utisci klijenata o radu naših kozmetičara.</p>
+        </div>
+        <a class="dugme" th:href="@{/recenzije/nova}">+ Nova recenzija</a>
+    </div>
+
+    <div th:replace="~{fragmenti/layout :: poruke}"></div>
+
+    <section class="kartica">
+        <h2>Filtriranje po kozmetičaru</h2>
+        <form class="filter" method="get" th:action="@{/recenzije}">
+            <div class="polje">
+                <label for="kozmeticarId">Kozmetičar</label>
+                <select id="kozmeticarId" name="kozmeticarId">
+                    <option value="">— svi kozmetičari —</option>
+                    <option th:each="k : ${sviKozmeticari}"
+                            th:value="${k.id}"
+                            th:text="${k.punoIme}"
+                            th:selected="${kozmeticarId != null and kozmeticarId == k.id}">Kozmetičar</option>
+                </select>
+            </div>
+            <div class="polje">
+                <button type="submit" class="dugme">Prikaži</button>
+                <a class="dugme dugme-sivo" th:href="@{/recenzije}">Poništi</a>
+            </div>
+        </form>
+    </section>
+
+    <div class="recenzije-lista">
+        <article class="recenzija" th:each="recenzija : ${recenzije}">
+            <div class="zvezdice" th:text="${recenzija.zvezdice}">★★★★★</div>
+            <p class="komentar" th:text="'„' + ${recenzija.komentar} + '“'">Komentar</p>
+            <p class="potpis">
+                <strong th:text="${recenzija.autor}">Autor</strong> o kozmetičaru
+                <span th:text="${recenzija.kozmeticar.punoIme}">Ivana Marković</span><br>
+                <span th:text="${#temporals.format(recenzija.datum, 'dd.MM.yyyy.')}">01.01.2026.</span>
+            </p>
+            <form th:action="@{/recenzije/obrisi/{id}(id=${recenzija.id})}" method="post"
+                  onsubmit="return confirm('Obrisati recenziju?');">
+                <button type="submit" class="dugme dugme-malo dugme-crveno">Obriši</button>
+            </form>
+        </article>
+    </div>
+
+    <div class="kartica" th:if="${#lists.isEmpty(recenzije)}">
+        <p class="prazna-tabela">Još uvek nema recenzija za izabranog kozmetičara.</p>
+    </div>
+
+</main>
+
+<footer th:replace="~{fragmenti/layout :: podnozje}"></footer>
+
+</body>
+</html>
